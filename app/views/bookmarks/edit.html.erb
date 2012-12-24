@@ -22,7 +22,8 @@
       <%= hidden_field_tag "hidden", tag_value %>
 
       <%= b.label :privacy, class: 'checkbox inline' do %>
-        <%= b.check_box :privacy, { checked: false } , 'false', 'true' %> Make this public
+        <% checked = if @bookmark.privacy? then false else true end %>
+        <%= b.check_box :privacy, { checked: checked } , 'false', 'true' %> Make this public
       <% end %>
 
       <br/><br/>
