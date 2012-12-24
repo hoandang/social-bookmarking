@@ -1,0 +1,27 @@
+<% privacy = 'privacy' if bookmark.privacy? %>
+<%= content_tag :li, class: privacy do %>
+  <span class="title">
+    <%= link_to bookmark.title, bookmark.url, target: '_blank' %>
+    <% if bookmark.privacy? %> 
+      <i class="icon-lock" data-placement="right" title="Private Link"></i>
+    <% end %>  
+  </span>
+  <span class="desc">
+      <%= truncate bookmark.description, length: 500 %>
+  </span>
+  <% if bookmark.associations.any? %>
+  <span class="tag">
+    <% bookmark.associations.each do |a| %>
+      <a href="#"><i class="icon-tag"></i><%=Tag.find(a.tag_id).name%></a> 
+    <% end %>
+  </span>
+  <% end %>
+  <% if current_user? @user %>
+  <span class="timestamp">
+    Created <%= time_ago_in_words bookmark.created_at %> ago.
+    <%= link_to 'edit', edit_user_bookmark_path(@user, bookmark) %>
+    <%= link_to 'delete', [@user, bookmark], method: :delete,
+                          data: { confirm: 'Really ?' } %>
+  </span>
+  <% end %>
+<% end %>

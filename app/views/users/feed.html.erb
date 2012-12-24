@@ -1,0 +1,25 @@
+<% provide(:title, 'Feed') %>
+<h2>Feed</h2>
+<div class="row">
+  <% if @feed_items.any? %>
+    <ol id="feed" class="span10">
+      <% @feed_items.each do |feed_item| %>
+        <li class="row">
+            <span class="title">
+              <%= link_to feed_item.title, feed_item.url, target: '_blank' %>
+              - <em>by <%= link_to feed_item.user.name, feed_item.user %>
+                </em>
+            </span>
+            <span class="desc">
+              <%= truncate feed_item.description, length: 500 %>
+            </span>
+        </li>
+      <% end %>
+    </ol>
+    <%= will_paginate @feed_items %>
+  <% else %>
+    <p class="span10 lead">
+      No such feed
+    </p>
+  <% end %>
+</div>

@@ -1,0 +1,32 @@
+<% provide(:title, @user.name) %>
+<div class="row">
+  <aside class="span3">
+    <section>
+      <h1>
+        <%= gravatar_for @user %>
+        <%= @user.name %>
+        <span class="created-at">
+          Joined on <%= @user.created_at.strftime("%d %b %Y") %>
+        </span>
+      </h1>
+      <%= render 'stats' %>
+    </section>
+  </aside>
+  <div class="span2">
+    <%= render 'follow_form' if signed_in? %>
+  </div>
+</div>
+<div class="row" id="bookmarks">
+  <% if @bookmarks.any? %>
+    <% if current_user? @user %>
+      <h3>You have <%= pluralize(@user.bookmarks.find_all_by_privacy(true).count, 'private bookmark') %>, <%= pluralize(@user.bookmarks.find_all_by_privacy(false).count, 'public bookmark') %> 
+      </h3>
+    <% else %>
+      <h3>Shares <%= pluralize(@bookmarks.count, 'bookmark') %></h3>
+    <% end %>
+    <ol>
+      <%= render @bookmarks %>
+      <%= will_paginate @bookmarks %>
+    </ol>
+  <% end %>
+</div>

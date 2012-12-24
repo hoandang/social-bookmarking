@@ -1,0 +1,27 @@
+<% provide(:title, 'Add Bookmark') %>
+<div class="row">
+  <div class="form">
+    <h1>Save a bookmark</h1>
+    <%= form_for [current_user, @bookmark] do |b| %>
+      <%= render 'shared/error_messages' %>
+      <%= b.label :url %>
+      <%= b.text_field :url %>
+
+      <%= b.label :title %>
+      <%= b.text_field :title %>
+
+      <%= b.label :description %>
+      <%= b.text_area :description, size: '40x10' %>
+
+      <%= label_tag :tags, 'Tags: ' %>
+      <%= text_field_tag :tags %>
+
+      <%= b.label :privacy, class: 'checkbox inline' do %>
+        <%= b.check_box :privacy, { checked: false } , 'false', 'true' %> Make this public
+      <% end %>
+
+      <br/><br/>
+      <%= b.submit "Add Bookmark", class: "btn btn-large btn-inverse" %> 
+    <% end %>
+  </div>
+</div>
