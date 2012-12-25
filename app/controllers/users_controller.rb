@@ -1,3 +1,5 @@
+require 'will_paginate/array'
+
 class UsersController < ApplicationController
   before_filter :signed_in_user, 
                 only: [:edit, :update, :destroy, :following, :followers]
@@ -61,15 +63,39 @@ class UsersController < ApplicationController
   end
 
   def feed
-    @feed_items = current_user.feed.paginate(:page => params[:page]).find_all_by_privacy(false)
+    @feed_items = current_user.feed.paginate(page: params[:page]).find_all_by_privacy(false)
+  end
+
+  # search bookmark by tag name
+  def search
+    @user = User.find(params[:user_id])
+    @bookmarks = (search_bookmarks_by params[:tag_name], @user).paginate(page: params[:page], per_page: 10) 
   end
 
   private
     def signed_in_user
       redirect_to signin_url, notice: 'Please sign in.' unless signed_in?
     end
+
     def correct_user
       @user = User.find(params[:id])
       redirect_to(root_path) unless current_user?(@user)
+    end
+
+    def search_bookmarks_by tag_name, user
+      @bookmarks = []
+      begin
+        tag_id = Tag.find_by_name(tag_name).id
+        user.bookmarks.each do |b|
+          b.associations.each do |a|
+            if a.tag_id == tag_id
+              @bookmarks.push(b)
+            end
+          end
+        end
+        @bookmarks
+      rescue
+        @bookmark
+      end
     end
 end

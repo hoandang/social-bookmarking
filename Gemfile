@@ -17,6 +17,7 @@ end
 
 group :development do
   gem 'annotate', '2.5.0'
+  gem 'awesome_print', '1.1.0'
 end
 
 # Gems used only for assets and not required

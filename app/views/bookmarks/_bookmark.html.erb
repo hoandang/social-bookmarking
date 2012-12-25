@@ -12,7 +12,9 @@
   <% if bookmark.associations.any? %>
   <span class="tag">
     <% bookmark.associations.each do |a| %>
-      <a href="#"><i class="icon-tag"></i><%=Tag.find(a.tag_id).name%></a> 
+      <%= content_tag :a, href: user_tag_search_path(@user, Tag.find(a.tag_id).name) do %>
+        <i class="icon-tag"></i><%=Tag.find(a.tag_id).name%>
+      <% end %>
     <% end %>
   </span>
   <% end %>

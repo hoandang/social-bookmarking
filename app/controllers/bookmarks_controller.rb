@@ -5,10 +5,12 @@ class BookmarksController < ApplicationController
   def index
   end
 
+  # new bookmark form
   def new 
     @bookmark = current_user.bookmarks.new
   end
 
+  # create bookmark
   def create
     @bookmark = current_user.bookmarks.build(params[:bookmark])
     if @bookmark.save
@@ -21,6 +23,7 @@ class BookmarksController < ApplicationController
     end
   end
 
+  # update bookmark
   def update
     @bookmark = current_user.bookmarks.find(params[:id])
     if @bookmark.update_attributes(params[:bookmark])
@@ -38,10 +41,12 @@ class BookmarksController < ApplicationController
     end
   end
 
+  # create a edit bookmark form
   def edit
     @bookmark = current_user.bookmarks.find(params[:id])
   end
 
+  # destroy bookmark
   def destroy
     #render text: params.inpsect
     current_user.bookmarks.find(params[:id]).destroy
@@ -49,6 +54,9 @@ class BookmarksController < ApplicationController
     redirect_to current_user
   end
 
+
+
+  # helpers
   private 
     def correct_user
       @user = Bookmark.find(params[:id]).user
@@ -68,4 +76,5 @@ class BookmarksController < ApplicationController
         Association.create(bookmark_id: bookmark.id, tag_id: tag.id) 
       end
     end
+
 end

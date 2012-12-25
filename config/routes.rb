@@ -3,8 +3,12 @@ Pint::Application.routes.draw do
 
   resources :users do
     resources :bookmarks
+
+    match '/search/:tag_name', to: 'users#search', as: 'tag_search'
+
     member do
       get :following, :followers, :feed
+
     end
   end
 
@@ -14,8 +18,6 @@ Pint::Application.routes.draw do
   match '/signup', to: 'users#new'
   match '/signin', to: 'sessions#new'
   match '/signout', to: 'sessions#destroy', via: :delete
-
- # match '/delete', to: 'bookmarks#destroy', via: :delete
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
