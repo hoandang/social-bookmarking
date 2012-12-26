@@ -1,20 +1,10 @@
 <h4 class="center">Tags</h4>
 <p>
-  
-  <%#<span class="top1"><a href="#">cloud</a></span>%>
-  <%#<span class="top2"><a href="#">programming</a> </span>%>
-  <%#<span class="top3"><a href="#">hosting</a> </span>%>
-  <%#<span class="top4"><a href="#">shopping</a> </span>%>
-  <%#<span><a href="#">javascript</a></span>%>
-  <%#<span><a href="#">javascript</a></span>%>
-  <%#<span><a href="#">javascript</a></span>%>
-  <%#<span><a href="#">javascript</a></span>%>
-  <%#<span><a href="#">javascript</a></span>%>
-  <%#<span><a href="#">javascript</a></span>%>
-  <%#<span><a href="#">git</a></span>%>
-  <%#<span><a href="#">git</a></span>%>
-  <%#<span><a href="#">git</a></span>%>
-  <%#<span><a href="#">git</a></span>%>
-  <%#<span><a href="#">git</a></span>%>
-  <%#<span><a href="#">git</a></span>%>
+  <% x = 0 %>
+  <% @tags.uniq.each do |tag| %>
+    <% x += 1 %>
+    <%= content_tag :span, class: "top#{x}" do %>
+      <%= link_to tag.name, user_tag_search_path(@user, tag.name) %>
+    <% end %>
+  <% end %>
 </p>

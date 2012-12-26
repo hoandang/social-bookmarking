@@ -15,6 +15,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    @tags = show_user_tags @user
     if current_user? @user
       @bookmarks = @user.bookmarks.paginate(page: params[:page], per_page: 10)
     else
@@ -69,6 +70,7 @@ class UsersController < ApplicationController
   # search bookmark by tag name
   def search
     @user = User.find(params[:user_id])
+    @tags = show_user_tags @user
     result_search = search_bookmarks_by params[:tag_name], @user
 
     if current_user? @user
@@ -109,5 +111,15 @@ class UsersController < ApplicationController
       rescue
         @bookmark
       end
+    end
+
+    def show_user_tags user
+      tags = []
+      user.bookmarks.each do |bookmark|
+          bookmark.associations.each do |association|
+              tags.push(Tag.find(association.tag_id))
+          end
+      end
+      tags
     end
 end

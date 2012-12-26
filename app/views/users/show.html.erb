@@ -4,7 +4,7 @@
     <section>
       <h1>
         <%= gravatar_for @user %>
-        <%= link_to @user.name, current_user %>
+        <%= link_to @user.name, @user %>
         <span class="created-at">
           Joined on <%= @user.created_at.strftime("%d %b %Y") %>
         </span>
@@ -29,9 +29,13 @@
         <%= render @bookmarks %>
         <%= will_paginate @bookmarks %>
       </ol>
+    <% else %>
+      <p class="lead">No such bookmark</p>
     <% end %>
   </div>
-  <div class="span4" id="tag">
-    <%= render 'shared/tags' %>
-  </div>
+  <% if @tags.any? %>
+    <div class="span4" id="tag">
+      <%= render 'shared/tags' %>
+    </div>
+  <% end %>
 </div>

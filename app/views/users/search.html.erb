@@ -1,9 +1,9 @@
-<div class="row">
+<div class="row-fluid">
   <aside class="span3">
     <section>
       <h1>
         <%= gravatar_for @user %>
-        <%= link_to @user.name, current_user %>
+        <%= link_to @user.name, @user %>
         <span class="created-at">
           Joined on <%= @user.created_at.strftime("%d %b %Y") %>
         </span>
@@ -12,12 +12,21 @@
     </section>
   </aside>
 </div>
-<div class="row" id="bookmarks">
-  <% if @bookmarks.any? %>
-    <h3>Found <%= pluralize(@bookmarks.count, 'bookmark') %></h3>
-    <ol>
-      <%= render @bookmarks %>
-      <%= will_paginate @bookmarks %>
-    </ol>
+<div class="row-fluid" id="bookmarks">
+  <div class="span8">
+    <% if @bookmarks.any? %>
+      <h3>Found <%= pluralize(@bookmarks.count, 'bookmark') %></h3>
+      <ol>
+        <%= render @bookmarks %>
+        <%= will_paginate @bookmarks %>
+      </ol>
+    <% else %>
+      <p class="lead">No such bookmark</p>
+    <% end %>
+  </div>
+  <% if @tags.any? %>
+    <div class="span4" id="tag">
+      <%= render 'shared/tags' %>
+    </div>
   <% end %>
 </div>
