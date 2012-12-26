@@ -9,10 +9,12 @@
     <% if bookmark.privacy? %> 
       <i class="icon-lock" data-placement="right" title="Private Link"></i>
     <% else %>
+      <% unless current_user? @user then %>
       <a href="<%= user_bookmark_add_path(current_user, bookmark) %>" class="pull-right">
         <i class="icon-plus"></i>
         save link
       </a>
+      <% end %>
     <% end %>  
   </span>
 
