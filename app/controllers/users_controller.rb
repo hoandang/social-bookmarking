@@ -69,7 +69,19 @@ class UsersController < ApplicationController
   # search bookmark by tag name
   def search
     @user = User.find(params[:user_id])
-    @bookmarks = (search_bookmarks_by params[:tag_name], @user).paginate(page: params[:page], per_page: 10) 
+    result_search = search_bookmarks_by params[:tag_name], @user
+
+    if current_user? @user
+      @bookmarks = result_search.paginate(page: params[:page], per_page: 10) 
+    else
+      temp = []
+      result_search.each do |bookmark|
+        unless bookmark.privacy? then
+          temp.push(bookmark)
+        end
+      end
+      @bookmarks = temp.paginate(page: params[:page], per_page: 10)
+    end
   end
 
   private

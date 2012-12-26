@@ -4,10 +4,11 @@
 <br/>
 > Todo list:
 <ol>
-    <li>Need to add read it later feature</li>
+    <li>Read it later feature</li>
     <li>Allow user to save from the others</li>
     <li>Search bookmark by tag</li>
     <li>RESTful API to serve the third parites</li>
     <li>Subscribe feed</l1>
+    <li>Import external bookmark</li>
     <li>AJAX everything</li>
 </ol>
