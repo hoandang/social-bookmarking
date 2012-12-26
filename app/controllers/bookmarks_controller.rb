@@ -54,7 +54,10 @@ class BookmarksController < ApplicationController
     redirect_to current_user
   end
 
-
+  # create added bookmark form
+  def add 
+    @bookmark = Bookmark.find(params[:bookmark_id])
+  end
 
   # helpers
   private 

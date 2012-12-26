@@ -1,14 +1,27 @@
 <% privacy = 'privacy' if bookmark.privacy? %>
 <%= content_tag :li, class: privacy do %>
+
+  <!-- title bookmark -->
   <span class="title">
+    <span class="bookmark-title">
     <%= link_to bookmark.title, bookmark.url, target: '_blank' %>
+    </span>
     <% if bookmark.privacy? %> 
       <i class="icon-lock" data-placement="right" title="Private Link"></i>
+    <% else %>
+      <a href="<%= user_bookmark_add_path(current_user, bookmark) %>" class="pull-right">
+        <i class="icon-plus"></i>
+        save link
+      </a>
     <% end %>  
   </span>
+
+  <!-- description bookmark -->
   <span class="desc">
       <%= truncate bookmark.description, length: 500 %>
   </span>
+
+  <!-- tags bookmark -->
   <% if bookmark.associations.any? %>
   <span class="tag">
     <% bookmark.associations.each do |a| %>
@@ -18,6 +31,8 @@
     <% end %>
   </span>
   <% end %>
+
+  <!-- timestamp and edit and delete link -->
   <% if current_user? @user %>
   <span class="timestamp">
     Created <%= time_ago_in_words bookmark.created_at %> ago.

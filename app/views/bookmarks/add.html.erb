@@ -1,0 +1,30 @@
+<% provide(:title, 'Add Bookmark') %>
+<div class="row">
+  <div class="form">
+    <h1>Save a bookmark</h1>
+    <form action="/users/<%=current_user.id%>/bookmarks" method="post">
+      <%= render 'shared/error_messages' %>
+      <label>Url</label>
+      <input type="text" name="bookmark[url]" value="<%=@bookmark.url%>" />
+
+      <label>Title</label>
+      <input type="text" name="bookmark[title]" value="<%=@bookmark.title%>" />
+
+      <label>Description</label>
+      <textarea name="bookmark[description]" rows="10" cols="40"></textarea>
+
+      <%= label_tag :tags, 'Tags: ' %>
+      <%= text_field_tag :tags %>
+
+      <label for="bookmark_privacy" class="checkbox inline">
+        <input name="bookmark[privacy]" type="hidden" value="true">
+        <input id="bookmark_privacy" name="bookmark[privacy]" type="checkbox" value="false"/> Make this public
+      </label>
+
+      <br/><br/>
+      <input class="btn btn-large btn-inverse" name="commit" type="submit" value="Add Bookmark">
+    </form>
+  </div>
+</div>
+
+

@@ -2,13 +2,14 @@ Pint::Application.routes.draw do
   root :to => 'pages#home'
 
   resources :users do
-    resources :bookmarks
+    resources :bookmarks do
+      match '/add', to: 'bookmarks#add', as: 'add'
+    end
 
     match '/search/:tag_name', to: 'users#search', as: 'tag_search'
 
     member do
       get :following, :followers, :feed
-
     end
   end
 
