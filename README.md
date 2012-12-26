@@ -5,7 +5,6 @@
 > Todo list:
 <ol>
     <li>Read it later feature</li>
-    <li>Allow user to save from the others</li>
     <li>RESTful API to serve the third parites</li>
     <li>Subscribe feed</l1>
     <li>Import external bookmark</li>
