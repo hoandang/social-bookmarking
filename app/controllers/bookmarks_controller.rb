@@ -61,23 +61,22 @@ class BookmarksController < ApplicationController
 
   # helpers
   private 
-    def correct_user
-      @user = Bookmark.find(params[:id]).user
-      redirect_to signin_url, notice: 'Please sign in.' unless current_user?(@user)
-    end    
+  def correct_user
+    @user = Bookmark.find(params[:id]).user
+    redirect_to signin_url, notice: 'Please sign in.' unless current_user?(@user)
+  end    
 
-    def duplicated? tag
-      Tag.where(name: tag).exists?
+  def duplicated_tag? tag
+    Tag.where(name: tag).exists?
+  end
+
+  def associate bookmark, tag
+    if duplicated_tag? tag
+      tag = Tag.find_by_name(tag)
+      Association.create(bookmark_id: bookmark.id, tag_id: tag.id) 
+    else
+      tag = Tag.create(name: tag)
+      Association.create(bookmark_id: bookmark.id, tag_id: tag.id) 
     end
-
-    def associate bookmark, tag
-      if duplicated? tag
-        tag = Tag.find_by_name(tag)
-        Association.create(bookmark_id: bookmark.id, tag_id: tag.id) 
-      else
-        tag = Tag.create(name: tag)
-        Association.create(bookmark_id: bookmark.id, tag_id: tag.id) 
-      end
-    end
-
+  end
 end

@@ -4,22 +4,36 @@
   <% if @feed_items.any? %>
     <ol id="feed" class="span10">
       <% @feed_items.each do |feed_item| %>
-        <li class="row">
-          <span class="title">
-            <%= link_to feed_item.title, feed_item.url, target: '_blank' %>
-            - <em>by <%= link_to feed_item.user.name, feed_item.user %>
+        <li>
+          <div class="row">
+            <span class="title span9">
+              <%= link_to feed_item.title, feed_item.url, target: '_blank' %>
+              - <em>by <%= link_to feed_item.user.name, feed_item.user %>
               </em>
-          </span>
-          <span class="desc">
-            <%= truncate feed_item.description, length: 500 %>
-          </span>
+            </span>
+            <% if signed_in? %>
+              <% unless current_user? @user then %>
+                <% unless duplicated_url? feed_item.url %>
+                  <%= link_to user_bookmark_add_path(current_user, feed_item), class: "pull-right" do %>
+                    <i class="icon-plus"></i>
+                    save link
+                  <% end %>
+                <% end %>
+              <% end %>
+            <% end %>
+          </div>
+          <div class="row">
+            <span class="desc">
+              <%= truncate feed_item.description, length: 500 %>
+            </span>
+          </div>
         </li>
       <% end %>
     </ol>
     <%= will_paginate @feed_items %>
   <% else %>
     <p class="span10 lead">
-      No such feed
+    No such feed
     </p>
   <% end %>
 </div>

@@ -3,6 +3,9 @@
   <div class="form">
     <h1>Save a bookmark</h1>
     <%= form_for [current_user, @bookmark] do |b| %>
+      <% unless @error.nil? then %>
+        <h1><%= @error %></h1>
+      <% end %>
       <%= render 'shared/error_messages' %>
       <%= b.label :url %>
       <%= b.text_field :url %>

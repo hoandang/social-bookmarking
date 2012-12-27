@@ -2,28 +2,33 @@
 <div class="row">
   <div class="form">
     <h1>Save a bookmark</h1>
-    <form action="/users/<%=current_user.id%>/bookmarks" method="post">
+    <%= form_for @bookmark, url: {action: "create"}, method: :post do |b| %>
       <%= render 'shared/error_messages' %>
-      <label>Url</label>
-      <input type="text" name="bookmark[url]" value="<%=@bookmark.url%>" />
+      <%= b.label :url %>
+      <%= b.text_field :url %>
 
-      <label>Title</label>
-      <input type="text" name="bookmark[title]" value="<%=@bookmark.title%>" />
+      <%= b.label :title %>
+      <%= b.text_field :title %>
 
-      <label>Description</label>
-      <textarea name="bookmark[description]" rows="10" cols="40"></textarea>
+      <%= b.label :description %>
+      <%= b.text_area :description, size: '40x10' %>
 
+      <% tag_value = "" %>
+      <% @bookmark.associations.each do |v| %>
+        <% tag_value << Tag.find(v.tag_id).name << " " %>
+      <% end %>
       <%= label_tag :tags, 'Tags: ' %>
-      <%= text_field_tag :tags %>
+      <%= text_field_tag :tags, tag_value %>      
+      <%= hidden_field_tag "hidden", tag_value %>
 
-      <label for="bookmark_privacy" class="checkbox inline">
-        <input name="bookmark[privacy]" type="hidden" value="true">
-        <input id="bookmark_privacy" name="bookmark[privacy]" type="checkbox" value="false"/> Make this public
-      </label>
+      <%= b.label :privacy, class: 'checkbox inline' do %>
+        <% checked = if @bookmark.privacy? then false else true end %>
+        <%= b.check_box :privacy, { checked: checked } , 'false', 'true' %> Make this public
+      <% end %>
 
       <br/><br/>
-      <input class="btn btn-large btn-inverse" name="commit" type="submit" value="Add Bookmark">
-    </form>
+      <%= b.submit "Save Changes", class: "btn btn-large btn-inverse" %> 
+    <% end %> 
   </div>
 </div>
 
