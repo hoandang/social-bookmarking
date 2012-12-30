@@ -23,22 +23,23 @@ class Bookmark < ActiveRecord::Base
   validates :url, presence: true, format: URI::regexp(%w(http https))
   validates :user_id, presence: true
 
-  validate :url_cannot_be_duplicated_per_user
+  validates :url, uniqueness: { scope: :user_id }
+  #validate :url_cannot_be_duplicated_per_user
 
   default_scope order: 'bookmarks.created_at DESC'
 
   def self.from_users_followed_by user
-    #followed_user_ids = "SELECT followed_id FROM relationships
-    #                     WHERE follower_id = :user_id"
-    followed_user_ids = user.followed_user_ids.join(',')
+    followed_user_ids = "SELECT followed_id FROM relationships
+                         WHERE follower_id = :user_id"
+    # followed_user_ids = user.followed_user_ids.join(',')
     where("user_id IN (#{followed_user_ids})", 
           user_id: user.id)
   end
 
-  def url_cannot_be_duplicated_per_user
-    current_user = User.find(self.user_id)
-    if current_user.bookmarks.any?{|b| b.url.eql? self.url }
-      errors.add(:url, "already added")
-    end
-  end
+  #def url_cannot_be_duplicated_per_user
+    #current_user = User.find(self.user_id)
+    #if current_user.bookmarks.any?{|b| b.url.eql? self.url }
+      #errors.add(:url, "already added")
+    #end
+  #end
 end

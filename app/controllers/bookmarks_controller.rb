@@ -33,7 +33,6 @@ class BookmarksController < ApplicationController
           associate @bookmark, tag
         end
       end
-
       flash[:success] = 'Bookmark updated'
       redirect_to current_user
     else

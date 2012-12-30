@@ -11,7 +11,7 @@ gem 'bootstrap-will_paginate', '0.0.9'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 group :development, :test do
-    gem 'sqlite3', '1.3.6'
+    #gem 'sqlite3', '1.3.6'
     gem 'rspec-rails', '2.12.0'
 end
 
@@ -39,7 +39,7 @@ group :test do
     gem 'factory_girl_rails', '4.1.0'
 end
 
-group :production do
+group :development, :production do
     gem 'pg', '0.14.1'
 end
 # To use ActiveModel has_secure_password
